@@ -1,5 +1,6 @@
-<odoo>
 <?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
         <!-- window action -->
         <!--
             The following tag is an action definition for a "window action",
