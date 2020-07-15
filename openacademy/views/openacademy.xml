@@ -3,7 +3,7 @@
 
        
 
-         <record model="ir.ui.view" id="course_form_view">
+         <record model="ir.actions.act_window" id="course_form_view">
             <field name="name">course.form</field>
             <field name="model">openacademy.course</field>
             <field name="arch" type="xml">
