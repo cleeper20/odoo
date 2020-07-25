@@ -12,7 +12,6 @@
                              <field name="responsible_id"/>
                         </group>
                         <notebook>
-
                             <page string="Description">
                                 <field name="description"/>
                             </page>
@@ -25,10 +24,7 @@
                                     </tree>
                                 </field>
                             </page>                            
-                        </notebook>
-
-                        
-                        
+                        </notebook>                       
                     </sheet>
                 </form>
             </field>
