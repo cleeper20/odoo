@@ -9,8 +9,7 @@ class Course(models.Model):
     name = fields.Char(string="Title", required=True)
     description = fields.Text() 
 
-    responsible_id = fields.Many2one('res.users',
-        ondelete='set null', string="Responsible", index=True)
+    responsible_id = fields.Many2one('res.users', ondelete='set null', string="Responsible", index=True)
     session_ids = fields.One2many(
         'openacademy.session', 'course_id', string="Sessions")
 
@@ -35,8 +34,7 @@ class Course(models.Model):
         ('name_unique',
          'UNIQUE(name)',
          "The course title must be unique"),
-    ]
-    
+    ]    
 
 class Session(models.Model):   
     _name = 'openacademy.session'
@@ -70,6 +68,7 @@ class Session(models.Model):
                 r.taken_seats = 0.0
             else:
                 r.taken_seats = 100.0 * len(r.attendee_ids) / r.seats
+
     @api.onchange('seats', 'attendee_ids')
     def _verify_valid_seats(self):
         if self.seats < 0:
@@ -85,6 +84,7 @@ class Session(models.Model):
                     'title': _("Too many attendees"),
                     'message': _("Increase seats or remove excess attendees"),
                 },
+
             }
     
         @api.depends('start_date', 'duration')
@@ -117,8 +117,4 @@ class Session(models.Model):
     def _check_instructor_not_in_attendees(self):
         for r in self:
             if r.instructor_id and r.instructor_id in r.attendee_ids:
-                raise exceptions.ValidationError(_("A session's instructor can't be an attendee"))   
-
-
-
-
+                raise exceptions.ValidationError(_("A session's instructor can't be an attendee")) 
