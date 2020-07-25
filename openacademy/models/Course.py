@@ -27,21 +27,6 @@ class Session(models.Model):
         ondelete='cascade', string="Course", required=True)
     attendee_ids = fields.Many2many('res.partner', string="Attendees")    
 
-@api.onchange('seats', 'attendee_ids')
-    def _verify_valid_seats(self):
-        if self.seats < 0:
-            return {
-                'warning': {
-                    'title': "Incorrect 'seats' value",
-                    'message': "The number of available seats may not be negative",
-                },
-            }
-        if self.seats < len(self.attendee_ids):
-            return {
-                'warning': {
-                    'title': "Too many attendees",
-                    'message': "Increase seats or remove excess attendees",
-                },
-            }
+
 
 
