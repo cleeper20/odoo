@@ -26,7 +26,10 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'views/openacademy.xml',      
+        'views/openacademy.xml',
+        'templates.xml',
+        'views/openacademy.xml',
+        'views/partner.xml',      
 ],
     # only loaded in demonstration mode
     'demo': [
