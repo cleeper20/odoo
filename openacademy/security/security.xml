@@ -3,7 +3,6 @@
         <record id="group_manager" model="res.groups">
             <field name="name">OpenAcademy / Manager</field>
         </record>
-
     
         <record id="only_responsible_can_modify" model="ir.rule">
             <field name="name">Only Responsible can modify Course</field>
