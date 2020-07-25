@@ -14,6 +14,7 @@ class Course(models.Model):
         'openacademy.session', 'course_id', string="Sessions")
 
 class Session(models.Model):
+    class Session(models.Model):
     _name = 'openacademy.session'
     _description = "OpenAcademy Sessions"
 
@@ -21,22 +22,17 @@ class Session(models.Model):
     start_date = fields.Date(default=fields.Date.today)
     duration = fields.Float(digits=(6, 2), help="Duration in days")
     seats = fields.Integer(string="Number of seats")
-    active = fields.Boolean(default=True)
-    color = fields.Integer()
+    active = fields.Boolean(default=True)   
 
-    instructor_id = fields.Many2one('res.partner', string="Instructor",
+      instructor_id = fields.Many2one('res.partner', string="Instructor",
         domain=['|', ('instructor', '=', True),
-                     ('category_id.name', 'ilike', "Teacher")])
+                     ('category_id.name', 'ilike', "Teacher")])        
     course_id = fields.Many2one('openacademy.course',
         ondelete='cascade', string="Course", required=True)
-    attendee_ids = fields.Many2many('res.partner', string="Attendees")
+    attendee_ids = fields.Many2many('res.partner', string="Attendees")    
+
 
     taken_seats = fields.Float(string="Taken seats", compute='_taken_seats')
-    end_date = fields.Date(string="End Date", store=True,
-        compute='_get_end_date', inverse='_set_end_date')
-
-    attendees_count = fields.Integer(
-        string="Attendees count", compute='_get_attendees_count', store=True)
 
     @api.depends('seats', 'attendee_ids')
     def _taken_seats(self):
