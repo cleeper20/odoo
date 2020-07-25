@@ -7,8 +7,8 @@ class Course(models.Model):
     _description = "OpenAcademy Courses"
 
     name = fields.Char(string="Title", required=True)
-    description = fields.Text() 
-
+    description = fields.Text()
+    
     responsible_id = fields.Many2one('res.users', ondelete='set null', string="Responsible", index=True)
     session_ids = fields.One2many(
         'openacademy.session', 'course_id', string="Sessions")
@@ -21,7 +21,7 @@ class Course(models.Model):
         if not copied_count:
             new_name = _(u"Copy of {}").format(self.name)
         else:
-            new_name = _(u"Copy of {} ({})").format(self.name, copied_count)
+           new_name = _(u"Copy of {} ({})").format(self.name, copied_count)
 
         default['name'] = new_name
         return super(Course, self).copy(default)
@@ -34,13 +34,13 @@ class Course(models.Model):
         ('name_unique',
          'UNIQUE(name)',
          "The course title must be unique"),
-    ]    
+    ]
 
-class Session(models.Model):   
+class Session(models.Model):
     _name = 'openacademy.session'
     _description = "OpenAcademy Sessions"
 
-    name = fields.Char(required=True)  
+    name = fields.Char(required=True)
     start_date = fields.Date(default=fields.Date.today)
     duration = fields.Float(digits=(6, 2), help="Duration in days")
     seats = fields.Integer(string="Number of seats")
@@ -49,7 +49,7 @@ class Session(models.Model):
 
     instructor_id = fields.Many2one('res.partner', string="Instructor",
         domain=['|', ('instructor', '=', True),
-                     ('category_id.name', 'ilike', "Teacher")])    
+                     ('category_id.name', 'ilike', "Teacher")])
     course_id = fields.Many2one('openacademy.course',
         ondelete='cascade', string="Course", required=True)
     attendee_ids = fields.Many2many('res.partner', string="Attendees")
@@ -59,7 +59,7 @@ class Session(models.Model):
         compute='_get_end_date', inverse='_set_end_date')
 
     attendees_count = fields.Integer(
-        string="Attendees count", compute='_get_attendees_count', store=True)        
+        string="Attendees count", compute='_get_attendees_count', store=True)
 
     @api.depends('seats', 'attendee_ids')
     def _taken_seats(self):
@@ -87,7 +87,7 @@ class Session(models.Model):
 
             }
     
-        @api.depends('start_date', 'duration')
+    @api.depends('start_date', 'duration')
     def _get_end_date(self):
         for r in self:
             if not (r.start_date and r.duration):
@@ -106,15 +106,15 @@ class Session(models.Model):
 
             # Compute the difference between dates, but: Friday - Monday = 4 days,
             # so add one day to get 5 days instead
-            r.duration = (r.end_date - r.start_date).days + 1
+            r.duration = (r.end_date - r.start_date).days + 1   
 
     @api.depends('attendee_ids')
     def _get_attendees_count(self):
         for r in self:
-            r.attendees_count = len(r.attendee_ids)
+            r.attendees_count = len(r.attendee_ids)            
 
     @api.constrains('instructor_id', 'attendee_ids')
     def _check_instructor_not_in_attendees(self):
         for r in self:
             if r.instructor_id and r.instructor_id in r.attendee_ids:
-                raise exceptions.ValidationError(_("A session's instructor can't be an attendee")) 
+               raise exceptions.ValidationError(_("A session's instructor can't be an attendee"))
