@@ -19,6 +19,7 @@ class Session(models.Model):
     _description = "OpenAcademy Sessions"
 
     name = fields.Char(required=True)  
+    star_date = fields.date()
     duration = fields.Float(digits=(6, 2), help="Duration in days")
     seats = fields.Integer(string="Number of seats")
 
